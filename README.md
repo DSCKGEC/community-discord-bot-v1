@@ -1,2 +1,22 @@
-# discord-bot
-A utility discord bot for the community server.
+# Discord Bot - Glenda
+
+This project is about bringing a discord bot, Glenda to life.
+
+### Basic functionalities
+- Web Scraping:
+  - Community websites like [Google Developers](https://developers.google.com/events) and updating about any events or happenings. Contributors from other DSCs may add their own websites!
+  - Domain related websites like [clist.by](https://clist.by) for competitive programming, [Kaggle](https://www.kaggle.com/competitions) for AI, etcetera.
+- Server duties:<br>
+  - Role Giver: In our discord server, we have badges(roles) that are periodically awarded to the members who have high activity or contributions. The assigning of this role is to be transfered to the bot from the server admins.
+  - Event updater: The bot would also take inputs from the server admins about upcoming events, webinars, contests and announce the same a week prior to the D-Day in the #announcement channel.
+- Others:
+  - Greet new users and welcome them to the server.
+  - Basic interaction commands so as to act as a chatbot as well.
+  
+### Stack
+TBD
+
+### Contributing
+This is an open source project and allows anyone to add to the codebase. If you are from a DSC community other than KGEC, we recommend you to add scraper functionalities to your community events so that we can partake in, expand our network and grow together.
+Though web scraping is identified globally, some websites may have private pages or might have blocked web crawlers. Make sure you **do not** explicitly try to scrape data from those sites.
+
