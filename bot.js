@@ -1,13 +1,10 @@
-/* ----------------- Importing Configurations ---------------- */
-const { prefix, token} = require('./config.json');
-//var meta = JSON.parse('../config.json')
-
+/*------------------- Setup for heroku--------------------- */
+// Main program for the bot starts from line 18.
 var express = require('express');
 var app     = express();
 
 app.set('port', (process.env.PORT || 5000));
 
-//For avoidong Heroku $PORT error
 app.get('/', function(request, response) {
     var result = 'App is running'
     response.send(result);
@@ -15,6 +12,11 @@ app.get('/', function(request, response) {
     console.log('App is running, server is listening on port ', app.get('port'));
 });
 
+
+
+/* ----------------- Importing Configurations ---------------- */
+const { prefix, token} = require('./config.json');
+//var meta = JSON.parse('../config.json')
 
 // import discord.js package
 const Discord = require('discord.js');
