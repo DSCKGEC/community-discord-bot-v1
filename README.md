@@ -5,7 +5,7 @@ This project is about bringing a discord bot, Willy, to life.
 ### Basic functionalities
 
 - Web Scraping:
-  - 🔴 Community websites like [Google Developers](https://developers.google.com/events) and updating about any events or happenings. Contributors from other DSCs may add their own websites!
+  - 🟢 Community websites like [Google Developers](https://developers.google.com/events) and updating about any events or happenings. Contributors from other DSCs may add their own websites!
   - 🔴 Domain related websites like [clist.by](https://clist.by) for competitive programming, [Kaggle](https://www.kaggle.com/competitions) for AI, etcetera.
 - Server duties:<br>
   - 🟢 Role Giver: In our discord server, we have badges(roles) that are periodically awarded to the members who have high activity or contributions. The assigning of this role is to be transferred to the bot from the server admins.
