@@ -2,6 +2,20 @@
 const { prefix, token} = require('./config.json');
 //var meta = JSON.parse('../config.json')
 
+var express = require('express');
+var app     = express();
+
+app.set('port', (process.env.PORT || 5000));
+
+//For avoidong Heroku $PORT error
+app.get('/', function(request, response) {
+    var result = 'App is running'
+    response.send(result);
+}).listen(app.get('port'), function() {
+    console.log('App is running, server is listening on port ', app.get('port'));
+});
+
+
 // import discord.js package
 const Discord = require('discord.js');
 
@@ -27,7 +41,7 @@ client.once('ready', () => {
 client.on("guildMemberAdd", (member) => {
 	let guild = member.guild; // Reading property `guild` of guildmember object.
 	if(guild.systemChannel){ // Checking if it's not null
-		guild.systemChannel.send('nWelcome ' + member.displayName + " to the Official DSC KGEC Discord Server!\nHead over the #info channel to get started.");
+		guild.systemChannel.send('Welcome ' + `${member}` + " to the Official DSC KGEC Discord Server!\nHead over the " + guild.channels.cache.get('755165862297731173').toString() +  " channel to get started.\n--------------------");
 	}
 });
 
@@ -48,12 +62,26 @@ client.on('message', message => {
 
 	/* ------------------ Commands & Responses ----------------- */
 
+    
+    // Command 0: Default Welcome
+    if (command === `welcome`) {
+        if (args[0]) {
+            const user = getUserFromMention(args[0]);
+            if (!user) {
+                return message.channel.send('Could not fetch tagged user.');
+            } else {
+                message.channel.send('Welcome ' + `${user}` + " to the Official DSC KGEC Discord Server!\nHead over the " + message.guild.channels.cache.get('755165862297731173').toString() +  " channel to get started.\n--------------------");
+            }
+        } else {
+            message.channel.send('No one tagged!');
+        }
+    }
 
 	// Command 1: Ping - to test whether the bot is live
-	if (message.content.toLowerCase() === `${prefix}ping`) {
+	else if (message.content.toLowerCase() === `${prefix}ping`) {
 		message.channel.send('Willy here, live.');
 	} 
-
+	
 	
 	// Command 2: Add-Event - to display a new event input by an admin
 	else if (message.content.toLowerCase() === `${prefix}add-event`) {
@@ -156,7 +184,7 @@ client.on('message', message => {
 
 
 	else {
-		message.channel.send(`I haven't been programmed for that command yet.\n`)
+		message.channel.send(`I haven't been programmed for that command yet.\n\n> We encourage you to add more commands and contribute to the development of the bot. It would really be a fun learning experience this pandemic. \n\nSend a PR with your contributions to our repository:\nhttps://github.com/DSCKGEC/community-discord-bot`)
 	}
 
 });
