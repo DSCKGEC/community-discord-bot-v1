@@ -18,8 +18,10 @@ app.get('/', function(request, response) {
 const { prefix, token} = require('./config.json');
 //var meta = JSON.parse('../config.json')
 
-// import discord.js package
+// import packages
 const Discord = require('discord.js');
+const request = require('request');
+const cheerio = require('cheerio');
 
 // create a new Discord Bot client
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
@@ -184,6 +186,41 @@ client.on('message', message => {
 		message.channel.send('Unauthorized')
 	} 	
 
+	else if (message.content.toLowerCase() === `${prefix}scrape`) {
+		request('https://developers.google.com/events', (error, response, html) => {
+			if (!error && response.statusCode === 200) {
+				const $ = cheerio.load(html);
+				var images = []
+				$('.devsite-landing-row-item-media figure a img').each((i, el) => {
+					const img = 'https://developers.google.com' + $(el).attr('src');
+					images.push(img)
+				});
+				var urls = []
+				$('.devsite-landing-row-item-body').each((i, el) => {
+					const url = $(el).children('a').attr('href')
+					urls.push(url)
+				});
+				var dates = []
+				$('.devsite-landing-row-item-description-content').each((i, el) => {
+					const date = $(el).children('p').eq(0).text()
+					dates.push(date)
+				});
+
+				for (var i = 0; i < Math.min(3, images.length); i++) {
+					const emb = new Discord.MessageEmbed()
+					.setColor('#0099ff')
+					.addFields(
+						{ name: 'Event URL', value: urls[i] },
+						{ name: 'Event Date', value: dates[i]},
+					)
+					.setImage(images[i]);
+					message.channel.send(emb).catch(err => {
+						message.channel.send(`Error faced: ${err}`)
+					})
+				}
+			}
+		})
+	}
 
 	else {
 		message.channel.send(`I haven't been programmed for that command yet.\n\n> We encourage you to add more commands and contribute to the development of the bot. It would really be a fun learning experience this pandemic. \n\nSend a PR with your contributions to our repository:\nhttps://github.com/DSCKGEC/community-discord-bot`)
