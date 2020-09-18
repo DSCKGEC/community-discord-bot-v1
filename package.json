@@ -5,7 +5,8 @@
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node bot.js"
+    "start": "node bot.js",
+    "dev": "nodemon bot.js"
   },
   "repository": {
     "type": "git",
@@ -23,5 +24,7 @@
     "express": "^4.17.1",
     "request": "^2.88.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
 }

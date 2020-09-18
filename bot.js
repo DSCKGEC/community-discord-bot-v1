@@ -15,28 +15,24 @@ app.get('/', function(request, response) {
 
 
 /* ----------------- Importing Configurations ---------------- */
-const { prefix, token} = require('./config.json');
-//var meta = JSON.parse('../config.json')
+const { prefix, token } = require('./config.json');
 
 // import packages
 const Discord = require('discord.js');
-const request = require('request');
-const cheerio = require('cheerio');
+const messageHandler = require('./message_handling/index');
 
 // create a new Discord Bot client
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
 
 // Global Variables
-var announcement_channel;
-var event_name, event_description, event_date, event_image, event_url
-var dp = 'https://scontent.fccu2-1.fna.fbcdn.net/v/t1.0-1/cp0/p50x50/119198593_364554184914631_1560249641923198238_n.jpg?_nc_cat=100&_nc_sid=dbb9e7&_nc_ohc=9gMAtcvSQtAAX81I9L7&_nc_ht=scontent.fccu2-1.fna&oh=d0f5665e001be1eb3075636741c0bc76&oe=5F889F50';
-
+let announcementChannel;
 
 // this event will only trigger one time after logging in
 client.once('ready', () => {
 	console.log('Ready!');
-	announcement_channel = client.channels.cache.get('755165871793635480');
+	announcementChannel = client.channels.cache.get('756097508719067247');
+	// announcementChannel = client.channels.cache.get('755165871793635480');
 });
 
 
@@ -52,181 +48,7 @@ client.on("guildMemberAdd", (member) => {
 
 
 /* --------------- User message responses --------------- */
-client.on('message', message => {
-
-
-	/* -------- Store message and tagged user, if any ------- */
-	// Unused yet
-	if (!message.content.toLowerCase().startsWith(prefix)) return;
-	const withoutPrefix = message.content.slice(prefix.length);
-	const split = withoutPrefix.split(/ +/);
-	const command = split[0].toLowerCase();
-	const args = split.slice(1);
-
-
-	/* ------------------ Commands & Responses ----------------- */
-
-    
-    // Command 0: Default Welcome
-    if (command === `welcome`) {
-        if (args[0]) {
-            const user = getUserFromMention(args[0]);
-            if (!user) {
-                return message.channel.send('Could not fetch tagged user.');
-            } else {
-                message.channel.send('Welcome ' + `${user}` + " to the Official DSC KGEC Discord Server!\nHead over the " + message.guild.channels.cache.get('755165862297731173').toString() +  " channel to get started.\n--------------------");
-            }
-        } else {
-            message.channel.send('No one tagged!');
-        }
-    }
-
-	// Command 1: Ping - to test whether the bot is live
-	else if (message.content.toLowerCase() === `${prefix}ping`) {
-		message.channel.send('Willy here, live.');
-	} 
-	
-	
-	// Command 2: Add-Event - to display a new event input by an admin
-	else if (message.content.toLowerCase() === `${prefix}add-event`) {
-		if (message.member.roles.cache.find(r => r.name === "Core Member")) {
-			message.channel.send('Please enter the event name').then(() => {
-				message.channel
-				.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 3000000, errors: ['time'] })
-				.then(names => {
-					auth = 'by: ' + message.author.username;
-					auth_image = message.author.avatarURL;
-					event_name = names.first().content;
-					names.first().react('👍');
-					message.channel.send('Please enter a short description').then(() => {
-					message.channel
-					.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 3000000, errors: ['time'] })
-					.then(descriptions => {
-						event_description = descriptions.first().content;
-						descriptions.first().react('👍');
-						message.channel.send('Please enter a date or time for the event').then(() => {
-						message.channel
-						.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 3000000, errors: ['time'] })
-						.then(times => {
-							times.first().react('👍');
-							event_date = times.first().content;
-							message.channel.send('Please enter an event link').then(() => {
-							message.channel
-							.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 3000000, errors: ['time'] })
-							.then(links => {
-								event_url = links.first().content;
-								links.first().react('👍');
-								message.channel.send('Please attach an event banner').then(() => {
-								message.channel
-								.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 3000000, errors: ['time'] })
-								.then(images => {
-									event_image = images.first().attachments.array()[0].url
-									images.first().react('👍');
-									/*
-									console.log(
-										event_date,
-										event_description,
-										event_image,
-										event_url,
-										event_name
-									);
-									*/
-									const exampleEmbed = new Discord.MessageEmbed()
-									.setColor('#0099ff')
-									.setTitle(event_name)
-									.setURL(event_url)
-									.setAuthor(auth, auth_image, dp)
-									.setDescription('')
-									.setThumbnail(dp)
-									.addFields(
-										{ name: 'What?', value: event_description },
-										{ name: 'When?', value: event_date},
-										{ name: 'Where?', value: event_url, inline: true },
-									)
-									.setImage(event_image)
-									.setTimestamp()
-									.setFooter('Hope you have a great learning time!', dp);
-									announcement_channel.send(exampleEmbed).catch(err => {
-										message.channel.send(`Error faced: ${err}`)
-									})
-								})
-								.catch(error => {
-									message.channel.send('Error: ' + error);
-								});
-								})
-							})
-							.catch(error => {
-								message.channel.send('Error: ' + error);
-							});
-							})
-						})
-						.catch(error => {
-							message.channel.send('Error: ' + error);
-						});
-						})
-					})
-					.catch(error => {
-						message.channel.send('Error: ' + error);
-					});
-					})
-						
-				});
-			})	
-		} else {
-			message.channel.send('Sorry, you need to be a Core Member to run this command.');
-		}
-	} 
-	
-
-	// Command 3: Auth - to check for administrative permissions
-	else if (message.content.toLowerCase() === `${prefix}auth`) {
-		if (message.member.roles.cache.find(r => r.name === "Core Member"))
-		message.channel.send('Authorized')
-		else 
-		message.channel.send('Unauthorized')
-	} 	
-
-	else if (message.content.toLowerCase() === `${prefix}scrape`) {
-		request('https://developers.google.com/events', (error, response, html) => {
-			if (!error && response.statusCode === 200) {
-				const $ = cheerio.load(html);
-				var images = []
-				$('.devsite-landing-row-item-media figure a img').each((i, el) => {
-					const img = 'https://developers.google.com' + $(el).attr('src');
-					images.push(img)
-				});
-				var urls = []
-				$('.devsite-landing-row-item-body').each((i, el) => {
-					const url = $(el).children('a').attr('href')
-					urls.push(url)
-				});
-				var dates = []
-				$('.devsite-landing-row-item-description-content').each((i, el) => {
-					const date = $(el).children('p').eq(0).text()
-					dates.push(date)
-				});
-
-				for (var i = 0; i < Math.min(3, images.length); i++) {
-					const emb = new Discord.MessageEmbed()
-					.setColor('#0099ff')
-					.addFields(
-						{ name: 'Event URL', value: urls[i] },
-						{ name: 'Event Date', value: dates[i]},
-					)
-					.setImage(images[i]);
-					message.channel.send(emb).catch(err => {
-						message.channel.send(`Error faced: ${err}`)
-					})
-				}
-			}
-		})
-	}
-
-	else {
-		message.channel.send(`I haven't been programmed for that command yet.\n\n> We encourage you to add more commands and contribute to the development of the bot. It would really be a fun learning experience this pandemic. \n\nSend a PR with your contributions to our repository:\nhttps://github.com/DSCKGEC/community-discord-bot`)
-	}
-
-});
+client.on('message', message => messageHandler(message, announcementChannel));
 
 
 // Add Role Handler
