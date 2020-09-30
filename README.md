@@ -2,9 +2,6 @@
     <a href="https://github.com/DSCKGEC/community-discord-bot">
         <img src="https://user-images.githubusercontent.com/52620158/94630327-10588300-02e3-11eb-9e28-97582964d96b.png" alt="Discord Bot">
     </a>
-    <br>
-    <p align="center"><em>One Bot to rule them all!</em></p>
-    <br>
 </p>
 
 <p align="center">
@@ -19,8 +16,8 @@ This project is about bringing a discord bot to maintain our community server.
 
 ### Commands and Functionalities active
 
-Command Name / Functionality | Description
---- | ---
+Functionality | Description
+----------------- | ---
 New User Welcome | Automatically sends a welcome message on a system channel
 Auto Role Giver | Automatically assigns a role to a user based on his emoji reaction to the get-domain-named-role message (ID - `755800896478117968`)
 !add-event | Admin-only command that creates a new event announcement post via interactive questionnaire about the event.
