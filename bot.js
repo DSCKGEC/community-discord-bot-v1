@@ -48,7 +48,15 @@ client.on("guildMemberAdd", (member) => {
 
 
 /* --------------- User message responses --------------- */
-client.on('message', message => messageHandler(message, announcementChannel));
+client.on('message', message => messageHandler(message, announcementChannel){
+	if (!message.content.startsWith(prefix) || message.author.bot) return; //Ignore message without prefix or from the bots
+	const args = message.content.slice(prefix.length).trim().split(/ +/); 
+	const command = args.shift().toLowerCase();
+	if (command === 'boost') {
+		boostUser(userId)
+	}
+	
+});
 
 
 // Add Role Handler
@@ -128,6 +136,12 @@ client.on("messageReactionAdd", async (reaction, user) => {
 	}
 })
 
+// Function to boost a user with the id role 755165816340611182
+function boostUser(userId){
+	let role = message.guild.roles.find(r => r.id = '755165816340611182'); // We search for the role with the proper ID
+	let member = message.mentions.members.first(); // We get the first user mentioned in the command
+	member.roles.add(role); //We add the role
+}
 
 
 // Unused Function to extract user menioned.
