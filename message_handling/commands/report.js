@@ -17,7 +17,7 @@ async function prompt(message, msg) {
 
 
 const reportHandler = async (message, args) => {
-    const reportChannel = "757343040573800448"
+    const reportChannel = "755165871793635480"
     const embedColor = "#00fbff"
 
     const issue = await prompt(message, "What is the issue?")

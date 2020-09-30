@@ -18,7 +18,7 @@ async function prompt(message, msg) {
 
 
 const ideaHandler = async (message, args) => {
-    const ideaChannel = "757343040573800448"
+    const ideaChannel = "755194723509076108"
     const embedColor = "#00fbff"
     // Sends the prompt for the topic
     const topic = await prompt(message, "What is the topic of your idea?")
