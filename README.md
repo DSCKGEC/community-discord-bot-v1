@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/DSCKGEC/community-discord-bot">
-        <img src="https://user-images.githubusercontent.com/52620158/94632433-20269600-02e8-11eb-80b9-0a444289bd20.png" alt="Discord Bot">
+        <img src="https://raw.githubusercontent.com/DSCKGEC/community-discord-bot/master/DISCORD%20CHAT%20BOT.png" alt="Discord Bot">
     </a>
 </p>
 
