@@ -18,23 +18,26 @@ async function prompt(message, msg) {
 
 
 const ideaHandler = async (message, args) => {
+    const auth = `By: ${message.author.username}`;
+    const authImage = message.author.avatarURL;
     const ideaChannel = "755194723509076108"
     const embedColor = "#00fbff"
     // Sends the prompt for the topic
-    const topic = await prompt(message, "What is the topic of your idea?")
+    const topic = await prompt(message, "Please enter a short title for your idea.")
     if (topic === "cancel") return message.channel.send("Canceled the command.")
-    if (topic.length > 256) return message.channel.send("Please shorten the topic to 256 characters or shorter.")
     // Sends the prompt for the description
-    const description = await prompt(message, "What is the description of your idea?")
+    const description = await prompt(message, "Please enter a detailed description of your idea.")
     if (description === "cancel") return message.channel.send("Canceled the command.")
-    if (description.length > 2048) return message.channel.send("Please shorten the description to 2048 characters or shorter.")
 
     let ideaEmbed = new MessageEmbed()
-        .setTitle(topic)
-        .setDescription(description)
+        .setAuthor(auth, authImage, '')
         .setColor(embedColor)
-        .setFooter(message.author.tag)
-    message.channel.send("Sent!")
+        .addFields(
+            { name: 'The Idea', value: topic },
+            { name: 'Description', value: description},
+        )
+        .setFooter('Upvote or downvote this message by reacting to it!')
+    message.channel.send("Submitted your idea successfully!")
     message.client.channels.cache.get(ideaChannel).send({embed: ideaEmbed})
     
 }
