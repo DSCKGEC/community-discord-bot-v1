@@ -18,6 +18,10 @@ Here is a list of commands currently available. My developers are working to bri
 \`scrape\`: Currently scrapes latest news from DSC official website.
 
 \`add-event [ADMIN only]\`: If you are a server Admin, you can announce about latest event!
+
+\`clist-live [optional- number of contests you want to see, default 1]\`: Get a list of already going contests
+
+\`clist-up [optional- number of contests you want to see, default 1]\`: Get a list of upcoming contests
 `
 
 
@@ -60,6 +64,14 @@ const helpHandler = (message, args) => {
                 ]
 
                 message.channel.send(randomJokes[Math.floor(Math.random() * 3)])
+
+            case "clist-live":
+                message.channel.send(`\`clist-live [optional- number of contests you want to see, default 1]\`: Get a list of already going contests`)
+                break;
+
+            case "clist-up":
+                message.channel.send(`\`clist-up [optional- number of contests you want to see, default 1]\`: Get a list of upcoming contests`)
+                break;
 
         }
     }
