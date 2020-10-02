@@ -36,12 +36,48 @@ client.once('ready', () => {
 });
 
 
+async function dmprompt(channel, msg, member) {
+    const filter = (response) => response.author.id === member.id;
+    channel.send(msg)
+    return channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] })
+        .then(collected => {
+            const content = collected.first().content;
+            if (content.toLowerCase() === "cancel") return "cancel"
+            return content;
+        })
+        .catch(_ => {
+            console.log(_)
+            return channel.send("You ran out of time! (1m). Please contact an admin to verify again.")
+        });
+}
 
 /* --- Display welcome message whenever new user joins -- */
-client.on("guildMemberAdd", (member) => {
+client.on("guildMemberAdd", async (member) => {
 	let guild = member.guild; // Reading property `guild` of guildmember object.
 	if(guild.systemChannel){ // Checking if it's not null
 		guild.systemChannel.send('Welcome ' + `${member}` + " to the Official DSC KGEC Discord Server!\nHead over the " + guild.channels.cache.get('755165862297731173').toString() +  " channel to get started.\n--------------------");
+	}
+	if (member) {
+		let KGrole = member.guild.roles.cache.find(r => r.id === "760660088582438967");
+		member.createDM().then(async channel => {
+			let name = await dmprompt(channel, "Welcome to the Official DSC KGEC Discord Server! What's your name?", member)
+			// uncomment if logs
+			// if (name > 2048) return message.channel.send("Please shorten your name to 2048 characters or shorter.")
+			let college = await dmprompt(channel, `Alright **${name}**, what college or ininstitution do you belong to?`, member)
+			// if (college > 2048) return message.channel.send("Please shorten your college to 2048 characters or shorter.")
+			if (college === "KGEC" || college === "Kalyani Government Engineering College") member.roles.add(KGrole)
+			channel.send(`Welcome and enjoy your stay!`)
+		// uncomment if you want logs
+		// 	let logEmbed = new Discord.MessageEmbed()
+		// 	.setTitle("New Member!")
+		// 	.setDescription(`${member.user.tag} - ${member.id}`)
+		// 	.addField("Name", name)
+		// 	.addField("College", college)
+		// 	.setColor("#00ff04")
+		// client.channels.cache.get("logChannelID").send({embed: logEmbed})
+		})
+
+		
 	}
 });
 
