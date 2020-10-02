@@ -3,7 +3,9 @@ const checkAuth = require('./commands/checkAuth');
 const welcomeCommandHandler = require('./commands/welcome');
 const addEventHandler = require('./commands/addEvent');
 const scrapePage = require('./commands/scrape');
-const helpHadler = require('./commands/helpHandler');
+const helpHandler = require('./commands/helpHandler');
+const ideaHandler = require('./commands/idea');
+const reportHandler = require('./commands/report');
 
 const clist = require('./commands/clist')
 
@@ -37,14 +39,13 @@ const messageHandler = (message, announcementChannel) => {
             break;
 
         case `help`:
-            helpHadler(message, args);
+            helpHandler(message, args);
             break;
 
             
         case `ping`:
             message.channel.send('Willy here, live.');
             break;
-
         //there are two types of listing in clist, runnning and coming
         case `clist-live`:
             clist(message, args, 'running',  args[0] ? args[0] : 1);
@@ -53,7 +54,12 @@ const messageHandler = (message, announcementChannel) => {
         case `clist-up`:
             clist(message, args, 'coming', args[0] ? args[0] : 1);
             break;
-
+        case `submit-idea`:
+            ideaHandler(message, args)
+            break;
+        case `report`:
+            reportHandler(message, args)
+            break;
         default:
             message.channel.send(`I haven't been programmed for that command yet.\n\n> We encourage you to add more commands and contribute to the development of the bot. It would really be a fun learning experience this pandemic. \n\nSend a PR with your contributions to our repository:\nhttps://github.com/DSCKGEC/community-discord-bot`)
     }
