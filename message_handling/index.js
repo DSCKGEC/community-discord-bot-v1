@@ -44,7 +44,7 @@ const messageHandler = (message, announcementChannel) => {
         case `ping`:
             message.channel.send('Willy here, live.');
             break;
-        case `idea`:
+        case `submit-idea`:
             ideaHandler(message, args)
             break;
         case `report`:
