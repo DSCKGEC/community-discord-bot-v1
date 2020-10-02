@@ -7,6 +7,8 @@ const helpHandler = require('./commands/helpHandler');
 const ideaHandler = require('./commands/idea');
 const reportHandler = require('./commands/report');
 
+const clist = require('./commands/clist')
+
 const messageHandler = (message, announcementChannel) => {
     if(!message.content.startsWith(prefix)) return;
 
@@ -43,6 +45,14 @@ const messageHandler = (message, announcementChannel) => {
             
         case `ping`:
             message.channel.send('Willy here, live.');
+            break;
+        //there are two types of listing in clist, runnning and coming
+        case `clist-live`:
+            clist(message, args, 'running',  args[0] ? args[0] : 1);
+            break;
+
+        case `clist-up`:
+            clist(message, args, 'coming', args[0] ? args[0] : 1);
             break;
         case `submit-idea`:
             ideaHandler(message, args)

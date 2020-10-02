@@ -17,20 +17,21 @@ async function prompt(message, msg) {
 
 
 const reportHandler = async (message, args) => {
-    const reportChannel = "755165871793635480"
-    const embedColor = "#00fbff"
+    const auth = `By: ${message.author.username}`;
+    const authImage = message.author.avatarURL;
+    const reportChannel = "755165871793635480";
+    const embedColor = "#00fbff";
 
-    const issue = await prompt(message, "What is the issue?")
-    if (issue.length > 1024) return message.channel.send("Please shorten the issue to 1024 characters or shorter.")
-    const desc = await prompt(message, "Please explain the issue or steps to reproduce.")
-    if (desc.length > 1024) return message.channel.send("Please shorten the desc to 1024 characters or shorter.")
+    const issue = await prompt(message, "What would you like to report or raise? Please explain in details.")
 
     let reportEmbed = new MessageEmbed()
-        .setTitle("Report")
-        .addField("Issue", issue)
-        .addField("Description/Steps to produce", desc)
+        .setAuthor(auth, authImage, '')
+        .setTitle('New Report!!')
         .setColor(embedColor)
-        .setFooter(message.author.tag)
+        .addFields(
+            { name: 'Description', value: issue },
+        )
+        .setFooter('Any available admin is requested to look into this asap!')
     message.channel.send("Sent!")
     message.client.channels.cache.get(reportChannel).send({embed: reportEmbed})
 
