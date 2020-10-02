@@ -58,7 +58,7 @@ client.on("guildMemberAdd", async (member) => {
 		guild.systemChannel.send('Welcome ' + `${member}` + " to the Official DSC KGEC Discord Server!\nHead over the " + guild.channels.cache.get('755165862297731173').toString() +  " channel to get started.\n--------------------");
 	}
 	if (member) {
-		let KGrole = member.guild.roles.cache.find(r => r.id === "756920985160253504");
+		let KGrole = member.guild.roles.cache.find(r => r.id === "760660088582438967");
 		member.createDM().then(async channel => {
 			let name = await dmprompt(channel, "Welcome to the Official DSC KGEC Discord Server! What's your name?", member)
 			// uncomment if logs
@@ -74,7 +74,7 @@ client.on("guildMemberAdd", async (member) => {
 		// 	.addField("Name", name)
 		// 	.addField("College", college)
 		// 	.setColor("#00ff04")
-		// client.channels.cache.get("757343040573800448").send({embed: logEmbed})
+		// client.channels.cache.get("logChannelID").send({embed: logEmbed})
 		})
 
 		
