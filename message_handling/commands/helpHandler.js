@@ -17,6 +17,10 @@ Here is a list of commands currently available. My developers are working to bri
 
 \`scrape\`: Currently scrapes latest news from DSC official website.
 
+\`sudmit-idea\`: If you have any project or event ideas, drop them in using this command!
+
+\`report\`: Have any issue or complaint? Use this command to send a secret report to the server admins.
+
 \`add-event [ADMIN only]\`: If you are a server Admin, you can announce about latest event!
 
 \`clist-live [optional- number of contests you want to see, default 1]\`: Get a list of already going contests
