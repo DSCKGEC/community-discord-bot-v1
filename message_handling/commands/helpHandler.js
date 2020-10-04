@@ -1,33 +1,26 @@
 const { DiscordAPIError } = require("discord.js")
 const Discord = require('discord.js')
-
-const genericHelpMessage = 
-`
-*Hello, This is Willy*
-            
-I'm the official Discord bot of DSC KGEC Server.. 
-
-Here is a list of commands currently available. My developers are working to bring more commands. Why don't you join them @ github - https://github.com/DSCKGEC/community-discord-bot
-
-\`ping\`: Check whether our bot is alive or not!
-
-\`welcome @user\`: Send a welcome message to a sppecific user on the channel they landed on.
-
-\`auth\`: To check if you are an admin of the server or not.
-
-\`scrape\`: Currently scrapes latest news from DSC official website.
-
-\`sudmit-idea\`: If you have any project or event ideas, drop them in using this command!
-
-\`report\`: Have any issue or complaint? Use this command to send a secret report to the server admins.
-
-\`add-event [ADMIN only]\`: If you are a server Admin, you can announce about latest event!
-
-\`clist-live [optional- number of contests you want to see, default 1]\`: Get a list of already going contests
-
-\`clist-up [optional- number of contests you want to see, default 1]\`: Get a list of upcoming contests
-`
-
+const dp = 'https://cdn.discordapp.com/avatars/755452647456243793/d057d1e31fae9bac61de42dd4efe73b7.png?size=256'
+const genericHelpMessage = new Discord.MessageEmbed()
+.setColor('#0099ff')
+    .setTitle('Hello, This is Dino_ :wave:')
+    .setURL('https://github.com/dsckgec/community-discord-bot')
+    .setDescription('I am the official bot of the DSC KGEC Community server!\n\nYou can find the community building me up here - https://github.com/dsckgec/community-discord-bot \nI would be really happy if you contribute a PR and help me grow 🤗 \n\nYou can find the list of commands I currently support below!')
+    .setThumbnail(dp)
+    .addFields(
+        { name: '!ping', value: 'Check whether our bot is alive or not!' },
+        { name: '!welcome @user', value: 'Send a welcome message for mentioned user on the channel they landed on.'},
+        { name: '!auth', value: 'To check if you are an admin of the server or not' },
+        { name: '!submit-idea', value: 'If you have any project or event ideas, drop them in using this command!' },
+        { name: '!scrape', value: 'Currently scrapes latest news and events from DSC official website' },
+        { name: '!clist-up', value: 'Get a list of upcomng CP contests, passing an optional parameter for the limit.' },
+        { name: '!clist-live', value: 'Get a list of already going contests, passing an optional parameter for the limit.' },
+        { name: '!report', value: 'Have any issue or complaint? Use this command to send a secret report to the server admins' },
+        { name: '!add-event', value: 'If you are a server Admin, you can announce about latest event!' },
+        { name: 'New user joins', value: 'DM the user asking for IRL name and college. and setting their nicknames and roles accordingly' },
+        { name: 'Adding domain badge to any user', value: 'There is a #🔖-get-roles channel wherein, a user can select his/her domain of interest by clicking on an emote and I automatically add the domain\'s badge to his/her profile so that others are able to know each other\'s interests!' },
+    )
+    .setFooter('Also note that I do not like meteors much 🥴', dp);
 
 const helpHandler = (message, args) => {
     if(args.length === 0){

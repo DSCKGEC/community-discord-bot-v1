@@ -41,10 +41,9 @@ const messageHandler = (message, announcementChannel) => {
         case `help`:
             helpHandler(message, args);
             break;
-
             
         case `ping`:
-            message.channel.send('Willy here, live.');
+            message.channel.send('Dino v1.0.0');
             break;
         //there are two types of listing in clist, runnning and coming
         case `clist-live`:
