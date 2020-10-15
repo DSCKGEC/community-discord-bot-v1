@@ -6,10 +6,11 @@ const scrapePage = require('./commands/scrape');
 const helpHandler = require('./commands/helpHandler');
 const ideaHandler = require('./commands/idea');
 const reportHandler = require('./commands/report');
+const membersCount = require('./commands/membersCount')
 
 const clist = require('./commands/clist')
 
-const messageHandler = (message, announcementChannel) => {
+const messageHandler = (message, announcementChannel,client) => {
     if(!message.content.startsWith(prefix)) return;
 
     /* --------- Made Lowercase to deal with it easily ------------ */
@@ -59,6 +60,9 @@ const messageHandler = (message, announcementChannel) => {
             break;
         case `report`:
             reportHandler(message, args)
+            break;
+        case `stats`:
+            membersCount(client,message) //This will setup the server stats
             break;
         default:
             message.channel.send(`I haven't been programmed for that command yet.\n\n> We encourage you to add more commands and contribute to the development of the bot. It would really be a fun learning experience this pandemic. \n\nSend a PR with your contributions to our repository:\nhttps://github.com/DSCKGEC/community-discord-bot`)

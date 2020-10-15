@@ -20,6 +20,7 @@ const { prefix, token } = require('./config.json');
 // import packages
 const Discord = require('discord.js');
 const messageHandler = require('./message_handling/index');
+const memCount = require('./server_stats/membersCount')
 
 // create a new Discord Bot client
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
@@ -29,10 +30,11 @@ const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 let announcementChannel;
 
 // this event will only trigger one time after logging in
-client.once('ready', () => {
+client.once('ready', (message) => {
 	console.log('Ready!');
+	memCount(client) //This will update the member count 
 	announcementChannel = client.channels.cache.get('756097508719067247');
-	// announcementChannel = client.channels.cache.get('755165871793635480');
+	announcementChannel = client.channels.cache.get('755165871793635480');
 });
 
 
@@ -54,6 +56,7 @@ async function dmprompt(channel, msg, member) {
 /* --- Display welcome message whenever new user joins -- */
 client.on("guildMemberAdd", async (member) => {
 	let guild = member.guild; // Reading property `guild` of guildmember object.
+	
 	if(guild.systemChannel){ // Checking if it's not null
 		guild.systemChannel.send('Welcome ' + `${member}` + " to the Official DSC KGEC Discord Server!\nHead over the " + guild.channels.cache.get('755165862297731173').toString() +  " channel to get started.\n--------------------");
 	}
@@ -84,7 +87,9 @@ client.on("guildMemberAdd", async (member) => {
 
 
 /* --------------- User message responses --------------- */
-client.on('message', message => messageHandler(message, announcementChannel));
+client.on('message', message => {
+	 messageHandler(message, announcementChannel, client)
+});
 
 
 // Add Role Handler
