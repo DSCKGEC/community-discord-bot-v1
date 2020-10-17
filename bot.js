@@ -37,20 +37,32 @@ client.once('ready', () => {
 });
 
 
+
+
+
+
+//++++++++++++++++++++helper functions+++++++++++++++++++++++++++++++++++++++++
+let isMember = (response) => response.author.id === member.id;
+
 async function dmprompt(channel, msg, member) {
-    const filter = (response) => response.author.id === member.id;
     channel.send(msg)
-    return channel.awaitMessages(filter, { max: 1, time: 600000, errors: ['time'] })
-        .then(collected => {
-            const content = collected.first().content;
-            if (content.toLowerCase() === "cancel") return "cancel"
-            return content;
-        })
-        .catch(_ => {
-            console.log(_)
-            return channel.send("You ran out of time! (1m). Please contact an admin to verify again.")
-        });
+    return channel.awaitMessages(isMember, { max: 1, time: 600000, errors: ['time'] })
+	.then(collected => {
+		const content = collected.first().content;
+		if (content.toLowerCase() === "cancel") return "cancel"
+		return content;
+	})
+	.catch(_ => {
+		console.log(_)
+		return channel.send("You ran out of time! (1m). Please contact an admin to verify again.")
+	});
 }
+//++++++++++++++++++++helper function+++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
 
 /* --- Display welcome message whenever new user joins -- */
 client.on("guildMemberAdd", async (member) => {
@@ -179,9 +191,9 @@ client.on("messageReactionAdd", async (reaction, user) => {
 
 		// Toggle the role.
 		if (member.roles.cache.find(r => r.id === role.id))
-		member.roles.remove(role)
+			member.roles.remove(role)
 		else {
-		member.roles.add(role)
+			member.roles.add(role)
 		}
 
 	} else {
