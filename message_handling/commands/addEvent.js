@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 
 const addEventHandler = async(message, args, announcement_channel) => {
-    if(!(message.member.roles.cache.find(r => r.name === "Core Member")))
+    if(!(message.member.roles.cache.find(r => r.name === "DSC Team")))
         message.channel.send('Sorry, you need to be a Core Member to run this command.');
 
     //extracting the author name and images

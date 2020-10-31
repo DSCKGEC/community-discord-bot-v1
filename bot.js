@@ -32,7 +32,7 @@ let announcementChannel;
 // this event will only trigger one time after logging in
 client.once('ready', () => {
 	console.log('Ready!');
-	announcementChannel = client.channels.cache.get('756097508719067247');
+	announcementChannel = client.channels.cache.get('755165864973566042');
 	// announcementChannel = client.channels.cache.get('755165871793635480');
 });
 
@@ -52,6 +52,8 @@ async function dmprompt(channel, msg, member) {
         });
 }
 
+
+
 /* --- Display welcome message whenever new user joins -- */
 client.on("guildMemberAdd", async (member) => {
 	let guild = member.guild;
@@ -68,8 +70,8 @@ client.on("guildMemberAdd", async (member) => {
 
 		// Slightly smaller text placed above the member's display name
 		ctx.font = '28px sans-serif';
-		ctx.fillStyle = '#ffffff';
-		ctx.fillText('Welcome to the server,', canvas.width / 2.5, canvas.height / 3.5);
+		ctx.fillStyle = '#f8faf2';
+		ctx.fillText('Welcome to our server,', canvas.width / 2.5, canvas.height / 3.5);
 
 		// Add an exclamation point here and below
 		ctx.font = applyText(canvas, `${member.displayName}!`);
@@ -81,7 +83,7 @@ client.on("guildMemberAdd", async (member) => {
 		ctx.closePath();
 		ctx.clip();
 
-		const avatar = await Canvas.loadImage(member.user.displayAvatarURL({ format: 'jpg' }));
+		const avatar = await Canvas.loadImage(member.user.displayAvatarURL({ format: 'png' }));
 		ctx.drawImage(avatar, 25, 25, 200, 200);
 
 		const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
@@ -109,7 +111,8 @@ client.on("guildMemberAdd", async (member) => {
 
 
 /* --------------- User message responses --------------- */
-client.on('message', message => messageHandler(message, announcementChannel));
+client.on('message', message => messageHandler(message, announcementChannel, client));
+
 
 
 // Add Role Handler
@@ -191,21 +194,6 @@ client.on("messageReactionAdd", async (reaction, user) => {
 
 
 
-// Unused Function to extract user menioned.
-function getUserFromMention(mention) {
-	// The id is the first and only match found by the RegEperson.
-	const matches = mention.match(/^<@!?(\d+)>$/);
-
-	// If supplied variable was not a mention, matches will be null instead of an array.
-	if (!matches) return;
-
-	// However the first element in the matches array will be the entire mention, not just the ID,
-	// so use index 1.
-	const id = matches[1];
-
-	return client.users.cache.get(id);
-}
-
 // Pass the entire Canvas object because you'll need to access its width, as well its context
 const applyText = (canvas, text) => {
 	const ctx = canvas.getContext('2d');
@@ -222,6 +210,7 @@ const applyText = (canvas, text) => {
 	// Return the result to use in the actual canvas
 	return ctx.font;
 };
+
 
 // login to Discord with the app's token
 client.login(token);

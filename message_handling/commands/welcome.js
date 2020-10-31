@@ -1,6 +1,6 @@
-const welcomeCommandHandler = (message, args) => {
+const welcomeCommandHandler = (message, args, client) => {
     if (args[0]) {
-        const user = getUserFromMention(args[0]);
+        const user = getUserFromMention(args[0], client);
         if (!user) {
             return message.channel.send('Could not fetch tagged user.');
         } else {

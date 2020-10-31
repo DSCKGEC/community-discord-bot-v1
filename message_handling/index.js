@@ -6,10 +6,10 @@ const scrapePage = require('./commands/scrape');
 const helpHandler = require('./commands/helpHandler');
 const ideaHandler = require('./commands/idea');
 const reportHandler = require('./commands/report');
-
+const boostHandler = require('./commands/boost')
 const clist = require('./commands/clist')
 
-const messageHandler = (message, announcementChannel) => {
+const messageHandler = (message, announcementChannel, client) => {
     if(!message.content.startsWith(prefix)) return;
 
     /* --------- Made Lowercase to deal with it easily ------------ */
@@ -23,7 +23,7 @@ const messageHandler = (message, announcementChannel) => {
     /* ------------------ Commands & Responses ----------------- */
     switch(command){
         case `welcome`: 
-            welcomeCommandHandler(message, args);
+            welcomeCommandHandler(message, args, client);
             break;
             
         case `add-event`:
@@ -40,6 +40,10 @@ const messageHandler = (message, announcementChannel) => {
 
         case `help`:
             helpHandler(message, args);
+            break;
+
+        case `boost`:
+            boostHandler(message, args, client);
             break;
             
         case `ping`:
