@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://hacktoberfest.digitalocean.com/"><img src="https://img.shields.io/badge/Hacktoberfest-Friendly-blueviolet?style=for-the-badge" alt="HacktoberFest"></a>
-  <a href="https://github.com/DSCKGEC/community-discord-bot/pulls"><img src="https://img.shields.io/github/issues-pr/DSCKGEC/community-discord-bot?label=Pull%20Requests&style=for-the-badge"></a>
+  <a href="https://github.com/DSCKGEC/community-discord-bot/pulls"><img src="https://img.shields.io/github/issues-pr-closed/DSCKGEC/community-discord-bot?label=Pull%20Requests&style=for-the-badge&color=green"></a>
   <a href="https://github.com/DSCKGEC/community-discord-bot/contributors"><img src="https://img.shields.io/github/contributors/DSCKGEC/community-discord-bot?color=yellow&style=for-the-badge" alt="contributors"></a>
 </p>
 
