@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://hacktoberfest.digitalocean.com/"><img src="https://img.shields.io/badge/Hacktoberfest-Friendly-blueviolet?style=for-the-badge" alt="HacktoberFest"></a>
-  <a href="https://github.com/DSCKGEC/community-discord-bot/pulls"><img src="https://img.shields.io/github/issues-pr-closed/DSCKGEC/community-discord-bot?label=Pull%20Requests&style=for-the-badge&color=green"></a>
+  <a href="https://github.com/DSCKGEC/community-discord-bot/pulls"><img src="https://img.shields.io/github/issues-pr/DSCKGEC/community-discord-bot?label=Pull%20Requests&style=for-the-badge"></a>
   <a href="https://github.com/DSCKGEC/community-discord-bot/contributors"><img src="https://img.shields.io/github/contributors/DSCKGEC/community-discord-bot?color=yellow&style=for-the-badge" alt="contributors"></a>
 </p>
 
@@ -16,13 +16,7 @@ A discord bot for the programming community, primarily for managing the discord 
 
 ### Commands and Functionalities active
 
-1. New user entry triggers the bot to DM the user asking his name and college and automatically assigning him the role of `KGECian` if the user is from our college!
-2. Auto-assigning of roles to a user according to his/her emote reaction to a pinned server message.
-3. Scraping [clist.by](https://clist.by) and [Events with Google](http://events.withgoogle.com/events) webpages for giving updates about latest and upcoming events and contests
-4. **!add-event** is a command accessible to the server admins to create a new event announcement in a dedicated events channel.
-5. **!submit-idea** helps the community members submit their event or project ideas up in a dedicated ideas channel.
-6. **!report** to report any issue to the admins secretly.
-7. And some other minor utility commands.
+Join our server and type !help
 
 Have any suggestion for the bot? Add it in #9!
 
