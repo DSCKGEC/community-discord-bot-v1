@@ -5,12 +5,14 @@ var app     = express();
 
 app.set('port', (process.env.PORT || 5000));
 
+
 app.get('/', function(request, response) {
     var result = 'App is running'
     response.send(result);
 }).listen(app.get('port'), function() {
     console.log('App is running, server is listening on port ', app.get('port'));
 });
+
 
 
 
@@ -37,10 +39,11 @@ client.once('ready', () => {
 });
 
 
+
 async function dmprompt(channel, msg, member) {
     const filter = (response) => response.author.id === member.id;
     channel.send(msg)
-    return channel.awaitMessages(filter, { max: 1, time: 600000, errors: ['time'] })
+    return channel.awaitMessages(filter, { max: 1, time: 6000000, errors: ['time'] })
         .then(collected => {
             const content = collected.first().content;
             if (content.toLowerCase() === "cancel") return "cancel"
@@ -48,7 +51,7 @@ async function dmprompt(channel, msg, member) {
         })
         .catch(_ => {
             console.log(_)
-            return channel.send("You ran out of time! (1m). Please contact an admin to verify again.")
+            channel.send("You ran out of time! (1m). Please contact an admin to verify again.")
         });
 }
 
@@ -59,32 +62,42 @@ client.on("guildMemberAdd", async (member) => {
 	let guild = member.guild;
 	if(guild.systemChannel){ 
 		const channel = guild.systemChannel;
-		const canvas = Canvas.createCanvas(700, 250);
+		const canvas = Canvas.createCanvas(900, 500);
 		const ctx = canvas.getContext('2d');
 
-		const background = await Canvas.loadImage('./background.png');
+		Canvas.registerFont('./UniSans.otf', {family: 'Uni Sans'})
+
+		const num = Math.floor(Math.random() * 10) + 1;
+
+		const background = await Canvas.loadImage(`./backgrounds/background${num}.jpg`);
 		ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-		ctx.strokeStyle = '#74037b';
-		ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
 		// Slightly smaller text placed above the member's display name
-		ctx.font = '28px sans-serif';
-		ctx.fillStyle = '#f8faf2';
-		ctx.fillText('Welcome to our server,', canvas.width / 2.5, canvas.height / 3.5);
+		ctx.font = '50px Uni Sans';
+		ctx.fillStyle = '#fff';
+		ctx.shadowBlur = 4;
+		const wide = ctx.measureText('Welcome').width;
+		ctx.fillText('Welcome', canvas.width / 2 - wide / 2, canvas.height - 175);
 
 		// Add an exclamation point here and below
 		ctx.font = applyText(canvas, `${member.displayName}!`);
 		ctx.fillStyle = '#ffffff';
-		ctx.fillText(`${member.displayName}!`, canvas.width / 2.5, canvas.height / 1.8);
+		ctx.shadowBlur = 4;
+		ctx.fillText(`${member.displayName}`, canvas.width / 2 - ctx.measureText(`${member.displayName}`).width / 2, canvas.height - 110);
 
 		ctx.beginPath();
-		ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
+		ctx.arc(canvas.width / 2, 150, 100, 0, Math.PI * 2, true);
+		ctx.lineWidth = 15;
+		ctx.strokeStyle = '#ffffff';
+		ctx.stroke();
 		ctx.closePath();
 		ctx.clip();
 
-		const avatar = await Canvas.loadImage(member.user.displayAvatarURL({ format: 'png' }));
-		ctx.drawImage(avatar, 25, 25, 200, 200);
+		ctx.arc()
+
+		const avatar = await Canvas.loadImage(member.user.displayAvatarURL({ format: 'jpg' }));
+		ctx.drawImage(avatar, (0.5 + (canvas.width / 2 - 100)) | 0, (0.5 + 50) | 0, 200, 200);
 
 		const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
 
@@ -93,14 +106,14 @@ client.on("guildMemberAdd", async (member) => {
 	if (member) {
 		let KGrole = member.guild.roles.cache.find(r => r.id === "760660088582438967");
 		member.createDM().then(async channel => {
-			let name = await dmprompt(channel, "Welcome to the Official DSC KGEC Discord Server!\n\nThis is Dino, the official bot of the server. We are glad that you joined us! 🤗\nPlease enter you name", member)
-			if (name !== "You ran out of time! (1m). Please contact an admin to verify again.") {
+			let name = await dmprompt(channel, "Welcome to the Official DSC KGEC Discord Server!\n\nThis is Chumly, the official bot of the server. We are glad that you joined us! 🤗\nPlease enter you name", member)
+			if (name != "You ran out of time! (1m). Please contact an admin to verify again.") {
 				let college = await dmprompt(channel, `Alright **${name}**!\nWhat college or institution are you from 🧐?`, member)
 				if (college === "KGEC" || college === "Kalyani Government Engineering College") member.roles.add(KGrole)
 				member.setNickname(name);
 				channel.send(`Welcome and enjoy your stay!\n\nTo get started, head on to the 🔖get-roles channel and pick up your domains of interest and do not forget to drop a **Hi** in the general chat channel!`)
 			} else {
-
+				return;
 			}
 		})
 
@@ -203,7 +216,7 @@ const applyText = (canvas, text) => {
 
 	do {
 		// Assign the font to the context and decrement it so it can be measured again
-		ctx.font = `${fontSize -= 10}px sans-serif`;
+		ctx.font = `${fontSize -= 10}px Uni Sans`;
 		// Compare pixel width of the text to the canvas minus the approximate avatar size
 	} while (ctx.measureText(text).width > canvas.width - 300);
 
